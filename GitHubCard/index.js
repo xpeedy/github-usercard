@@ -8,9 +8,10 @@ import axios from 'axios';
 
 axios
  .get("https://api.github.com/users/xpeedy")
- .then((data) => {
+ .then((data) => {//data is the obj
    console.log(data)
-   cards.appendChild(cardMaker(data))
+   const gitInfo = data.data;//this is th obj data (obj.data)
+   cards.appendChild(cardMaker(gitInfo))
  })
 
 /*
@@ -89,9 +90,11 @@ function cardMaker(obj){
 
   let profile = document.createElement("p")
   let link = document.createElement("a")
-  link.href = obj.html_url
-  profile.textContent = link;
+  link.href = obj.html_url;
+  link.textContent = link.href
+  profile.textContent = "profile: ";
 //<----idk if this will work--->
+  profile.appendChild(link)
   cardInfo.appendChild(profile)
 
   let followers = document.createElement("p")
@@ -109,7 +112,7 @@ function cardMaker(obj){
   return card;
 }
 let cards = document.querySelector(".cards")
-let newCard = cardMaker(axios.data)
+
 
 /*
   List of LS Instructors Github username's:
