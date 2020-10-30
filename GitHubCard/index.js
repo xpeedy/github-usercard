@@ -9,9 +9,9 @@ import axios from 'axios';
 axios
  .get("https://api.github.com/users/xpeedy")
  .then((data) => {//data is the obj
-   console.log(data)
+   console.log(data)//this just to check the data
    const gitInfo = data.data;//this is th obj data (obj.data)
-   cards.appendChild(cardMaker(gitInfo))
+   cards.appendChild(cardMaker(gitInfo))// add it to the DOM
  })
 
 /*
@@ -40,7 +40,23 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+"tetondan",
+"dustinmyers",
+"justsml",
+"luishrd",
+"bigknell",];
+
+followersArray.forEach((user) => {// user is an element from the array 
+  axios
+  .get("https://api.github.com/users/" + user)//get the API and add an element at the end
+  .then((result) => {//result ex: "https://api.github.com/users/tetondan"
+    const userInfo = result.data;// element"user"s data
+    cards.appendChild(cardMaker(userInfo))// add its to the DOM
+  })
+})
+
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -63,21 +79,21 @@ const followersArray = [];
 */
 
 function cardMaker(obj){
-  const card = document.createElement("div")
-  card.classList.add("card")
+  const card = document.createElement("div")//creates div
+  card.classList.add("card")//creates a clss for the div above
 
   let img = document.createElement("img")
-  img.src = obj.avatar_url;
+  img.src = obj.avatar_url;//get the obj's img url and add it to the img created above
   card.appendChild(img)
 
   let cardInfo = document.createElement("div")
   cardInfo.classList.add("card-info")
-  card.appendChild(cardInfo)
+  card.appendChild(cardInfo)//add it to the card div
 
   let name = document.createElement("h3")
   name.classList.add("name")
   name.textContent = `name: ${obj.name}`;
-  cardInfo.appendChild(name)
+  cardInfo.appendChild(name)//add it to the card-info div
 
   let userName = document.createElement("p")
   userName.classList.add("username")
@@ -89,13 +105,14 @@ function cardMaker(obj){
   cardInfo.appendChild(location)
 
   let profile = document.createElement("p")
-  let link = document.createElement("a")
-  link.href = obj.html_url;
-  link.textContent = link.href
+  //<---this is inside profile--->
+  let link = document.createElement("a")//creates a link
+  link.href = obj.html_url;//get the url as a herf for the "a" tag(as a link)
+  link.textContent = link.href//makes the href from the "a" tag(the link) a text you can see 
   profile.textContent = "profile: ";
-//<----idk if this will work--->
   profile.appendChild(link)
   cardInfo.appendChild(profile)
+  //<------------------------->
 
   let followers = document.createElement("p")
   followers.textContent = `followers: ${obj.followers}`;
@@ -109,9 +126,9 @@ function cardMaker(obj){
   bio.textContent = `bio: ${obj.bio}`;
   cardInfo.appendChild(bio)
 
-  return card;
+  return card;// always retun the object you are creating
 }
-let cards = document.querySelector(".cards")
+let cards = document.querySelector(".cards")//selects where we adding the card we make with cardMaker()
 
 
 /*
