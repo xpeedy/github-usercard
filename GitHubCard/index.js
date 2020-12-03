@@ -8,9 +8,9 @@ import axios from 'axios';
 
 axios
  .get("https://api.github.com/users/xpeedy")
- .then((data) => {//data is the obj
-   console.log(data)//this just to check the data
-   const gitInfo = data.data;//this is th obj data (obj.data)
+ .then((res) => {//data is the obj
+   console.log(res)//this just to check the data
+   const gitInfo = res.data;//this is th obj data (obj.data)
    cards.appendChild(cardMaker(gitInfo))// add it to the DOM
  })
 
@@ -52,7 +52,11 @@ followersArray.forEach((user) => {// user is an element from the array
   .get("https://api.github.com/users/" + user)//get the API and add an element at the end
   .then((result) => {//result ex: "https://api.github.com/users/tetondan"
     const userInfo = result.data;// element"user"s data
+    console.log(userInfo);
     cards.appendChild(cardMaker(userInfo))// add its to the DOM
+  })
+  .catch((err) => {
+    console.log(err);
   })
 })
 
@@ -79,8 +83,8 @@ followersArray.forEach((user) => {// user is an element from the array
 */
 
 function cardMaker(obj){
-  const card = document.createElement("div")//creates div
-  card.classList.add("card")//creates a clss for the div above
+  const card = document.createElement("div")//creates main div
+  card.classList.add("card")//creates a class for the div above
 
   let img = document.createElement("img")
   img.src = obj.avatar_url;//get the obj's img url and add it to the img created above
@@ -88,7 +92,7 @@ function cardMaker(obj){
 
   let cardInfo = document.createElement("div")
   cardInfo.classList.add("card-info")
-  card.appendChild(cardInfo)//add it to the card div
+  card.appendChild(cardInfo)//add it to the card main div
 
   let name = document.createElement("h3")
   name.classList.add("name")
@@ -108,7 +112,7 @@ function cardMaker(obj){
   //<---this is inside profile--->
   let link = document.createElement("a")//creates a link
   link.href = obj.html_url;//get the url as a herf for the "a" tag(as a link)
-  link.textContent = link.href//makes the href from the "a" tag(the link) a text you can see 
+  link.textContent = link.href//makes the href from the "a" tag(the link) a text you can read 
   profile.textContent = "profile: ";
   profile.appendChild(link)
   cardInfo.appendChild(profile)
